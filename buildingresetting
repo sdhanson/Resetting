@@ -24,7 +24,8 @@ public class BuildingResetting : MonoBehaviour {
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
 		HUD.SetActive(false);
-                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT
+                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT -- _pos = steamvr_trackedobject(0).transform.position ? 
+		//test if steamvr position is in real life or virtual coordinates
 		_pos = Camera.main.transform.position;
 	}
 	
