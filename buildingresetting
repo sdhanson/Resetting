@@ -150,6 +150,7 @@ public class BuildingResetting : MonoBehaviour {
 		message = feather.transform.position.ToString();
 	}
 
+//MIGHT WANT TO CHANGE _POS.X TO DELTATRANSLATIONBYFRAME bc if changed by >1.4f that means has walked that much - no bc might walk less but angled ?
 	public bool OutOfBounds() {
 		if (_pos.x > 1.4f)
 			return true;
