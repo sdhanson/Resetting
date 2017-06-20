@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class BuildingResetting : MonoBehaviour {
 
 	public static Vector3 pos = new Vector3 ();
+	public string message = "";
+	public Text messageText;
 	// remove bc define PrevPos later: public static Vector3 new_pos = new Vector3 ();
 
 	//idk what _updateCount is for
 	public int _updateCount = 0;
+	public int _messageCount = 0;
 
 	GameObject feather;
 	GameObject featherDestination;
@@ -29,10 +32,7 @@ public class BuildingResetting : MonoBehaviour {
 	void Update () 
 	{
 		_updateCount++;
-		new_pos = Camera.main.transform.position;
-		Debug.Log(new_pos);
-		Search ();
-		pos = new_pos;
+		resettingFSM();
 	}
 
 	void OnGui()
