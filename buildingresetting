@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class BuildingResetting : MonoBehaviour {
 
-	public static Vector3 pos = new Vector3 ();
+	public static Vector3 _pos = new Vector3 ();
 	public string message = "";
 	public Text messageText;
-	// remove bc define PrevPos later: public static Vector3 new_pos = new Vector3 ();
 
 	//idk what _updateCount is for
 	public int _updateCount = 0;
@@ -25,7 +24,8 @@ public class BuildingResetting : MonoBehaviour {
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
 		HUD.SetActive(false);
-		pos = Camera.main.transform.position;
+                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT
+		_pos = Camera.main.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -53,7 +53,10 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//Gather pertinent data
 		Vector3 deltaTranslationByFrame = _pos - prevPos;
+                //has prevPos been initialized - is later on
 		Debug.Log (_pos);
+                Debug.Log (prevPos);
+                Debug.Log(deltaTranslationByFrame);
 		float realWorldRotation = Camera.main.transform.localEulerAngles.y;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
 		//if crossed threshold from + to - (1 to 359)
