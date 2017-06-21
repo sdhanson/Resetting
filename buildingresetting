@@ -29,7 +29,7 @@ public class BuildingResetting : MonoBehaviour {
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
 		HUD.SetActive(false);
-                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT -- _pos = steamvr_trackedobject(0).transform.position ? 
+                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT -- _pos = steamvr_trackedobject(0)..position ? 
 		//test if steamvr position is in real life or virtual coordinates
 	}
 	
@@ -52,7 +52,7 @@ public class BuildingResetting : MonoBehaviour {
         }
 
 //beginning of the old code
-	private Vector3 intendedCenter = new Vector3 (-30f, 8, 30.9f);
+	private Vector3 intendedCenter = new Vector3 (-30f, 8f, 30.9f);
 	private float prevXAngle = 0f;
 	private Vector3 prevPos = new Vector3();
 	private bool resetNeeded = false;
@@ -154,8 +154,8 @@ public class BuildingResetting : MonoBehaviour {
 			transform.Translate(deltaTranslationByFrame);
 		}
 		//update position incrementally using sin and cos
-		float delX = Mathf.Cos(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.x + Mathf.Sin(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.z;
-		float delZ = Mathf.Cos(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.z + Mathf.Sin(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.x;
+		//float delX = Mathf.Cos(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.x + Mathf.Sin(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.z;
+		//float delZ = Mathf.Cos(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.z + Mathf.Sin(cumulativeAngleTurned * Mathf.Deg2Rad) * deltaTranslationByFrame.x;
 		//transform.Translate(deltaTranslationByFrame);
 		//store data for use next frame
 		prevPos = _pos;
