@@ -9,6 +9,7 @@ public class BuildingResetting : MonoBehaviour {
 	public static Quaternion _quat = new Quaternion();
 	
 	public string message = "";
+	//don't think this next line is necessary... ?
 	public Text HUDText;
 	
 	public string specifier;
@@ -51,7 +52,7 @@ public class BuildingResetting : MonoBehaviour {
         }
 
 //beginning of the old code
-	private Vector3 intendedCenter = new Vector3 (-.6f, 0, -.3f);
+	private Vector3 intendedCenter = new Vector3 (-30f, 8, 30.9f);
 	private float prevXAngle = 0f;
 	private Vector3 prevPos = new Vector3();
 	private bool resetNeeded = false;
@@ -165,26 +166,27 @@ public class BuildingResetting : MonoBehaviour {
 	}
 
 //MIGHT WANT TO CHANGE _POS.X TO DELTATRANSLATIONBYFRAME bc if changed by >1.4f that means has walked that much - no bc might walk less but angled ?
-	public bool OutOfBounds() {
-		if (_pos.x > 1.4f)
+//NEW BOUNDARIES - used with new intended center
+       public bool OutOfBounds() {
+		if (_pos.x > -31.1f)
 			return true;
-		if (_pos.x < -2.6f)
+		if (_pos.x < -27f)
 			return true;
-		if (_pos.z > 1.2f)
+		if (_pos.z > 26.8f)
 			return true;
-		if (_pos.z < -1.8f)
+		if (_pos.z < 30.9f)
 			return true;
 		return false;
 	}
 
 	public bool ReturnedToBounds() {
-		if (_pos.x > 1.1f)
+		if (_pos.x > -30.8f)
 			return false;
-		if (_pos.x < -2.3f)
+		if (_pos.x < -27.3f)
 			return false;
-		if (_pos.z > .9f)
+		if (_pos.z > 27.1f)
 			return false;
-		if (_pos.z < -1.5f)
+		if (_pos.z < 30.6f)
 			return false;
 		return true;
 	}
