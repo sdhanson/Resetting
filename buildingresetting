@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class BuildingResetting : MonoBehaviour {
 
 	public static Vector3 _pos = new Vector3 ();
+	public static Quaternion _quat = new Quaternion();
+	
 	public string message = "";
 	public Text messageText;
+	
+	public string specifier;
 
 	//idk what _updateCount is for
 	public int _updateCount = 0;
@@ -26,7 +30,6 @@ public class BuildingResetting : MonoBehaviour {
 		HUD.SetActive(false);
                 //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT -- _pos = steamvr_trackedobject(0).transform.position ? 
 		//test if steamvr position is in real life or virtual coordinates
-		_pos = Camera.main.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -40,6 +43,12 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//idk what this is for
 	}
+	
+	public void transformData()
+	{
+	     _pos = Camera.main.transform.position;
+             _quat = Camera.main.transform.rotation;
+        }
 
 //beginning of the old code
 	private Vector3 intendedCenter = new Vector3 (-.6f, 0, -.3f);
@@ -55,9 +64,9 @@ public class BuildingResetting : MonoBehaviour {
 		//Gather pertinent data
 		Vector3 deltaTranslationByFrame = _pos - prevPos;
                 //has prevPos been initialized - is later on
-		Debug.Log (_pos);
-                Debug.Log (prevPos);
-                Debug.Log(deltaTranslationByFrame);
+		specifier = "f4";
+		Debug.Log(string.Format("position: {0}, previous {1}", _pos, prevPos));
+		Debug.Log(string.Format("{0}: {1}", specifier, deltaTranslationByFrame.ToString(specifier)));
 		float realWorldRotation = Camera.main.transform.localEulerAngles.y;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
 		//if crossed threshold from + to - (1 to 359)
@@ -152,6 +161,7 @@ public class BuildingResetting : MonoBehaviour {
 		prevPos = _pos;
 		prevXAngle = Camera.main.transform.localEulerAngles.y;
 		message = feather.transform.position.ToString();
+                _pos = Camera.main.transform.position;
 	}
 
 //MIGHT WANT TO CHANGE _POS.X TO DELTATRANSLATIONBYFRAME bc if changed by >1.4f that means has walked that much - no bc might walk less but angled ?
