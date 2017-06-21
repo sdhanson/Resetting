@@ -94,7 +94,7 @@ public class BuildingResetting : MonoBehaviour {
 		//perform reset by manipulating gain (to do this we will rotate the object in the opposite direction)
 		else if (resetNeeded) {
 			HUD.SetActive (true);
-			//Calculate the total rotation neccesary
+			//Calculate the total rotation neccesary - MIGHT BE MESSED UP BC NEGATIVE VECTOR FOR INTENDED CENTER
 			float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
 			float rotationRemainingToCenter = calc1 - realWorldRotation;
 			//fix rotation variables
