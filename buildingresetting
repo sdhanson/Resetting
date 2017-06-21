@@ -64,7 +64,6 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//Gather pertinent data
 		Vector3 deltaTranslationByFrame = _pos - prevPos;
-                //has prevPos been initialized - is later on
 		specifier = "f4";
 		Debug.Log(string.Format("position: {0}, previous {1}", _pos, prevPos));
 		Debug.Log(string.Format("{0}: {1}", specifier, deltaTranslationByFrame.ToString(specifier)));
