@@ -9,7 +9,7 @@ public class BuildingResetting : MonoBehaviour {
 	public static Quaternion _quat = new Quaternion();
 	
 	public string message = "";
-	public Text messageText;
+	public Text HUDText;
 	
 	public string specifier;
 
@@ -41,7 +41,7 @@ public class BuildingResetting : MonoBehaviour {
 
 	void OnGui()
 	{
-		//idk what this is for
+		//idk what to do here
 	}
 	
 	public void transformData()
