@@ -167,25 +167,25 @@ public class BuildingResetting : MonoBehaviour {
 	
 //NEW BOUNDARIES - used with new intended center
        public bool OutOfBounds() {
-		if (_pos.x > -31.1f)
+		if (_pos.x > -27f)
 			return true;
-		if (_pos.x < -27f)
+		if (_pos.x < -31.1f)
 			return true;
-		if (_pos.z > 26.8f)
+		if (_pos.z > 30.9f)
 			return true;
-		if (_pos.z < 30.9f)
+		if (_pos.z < 26.8)
 			return true;
 		return false;
 	}
 
 	public bool ReturnedToBounds() {
-		if (_pos.x > -30.8f)
+		if (_pos.x > -27.3f)
 			return false;
-		if (_pos.x < -27.3f)
+		if (_pos.x < -20.8f)
 			return false;
-		if (_pos.z > 27.1f)
+		if (_pos.z > 30.6f)
 			return false;
-		if (_pos.z < 30.6f)
+		if (_pos.z < 27.1f)
 			return false;
 		return true;
 	}
