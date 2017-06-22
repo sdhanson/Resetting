@@ -180,7 +180,7 @@ public class BuildingResetting : MonoBehaviour {
 	public bool ReturnedToBounds() {
 		if (_pos.x > -27.3f)
 			return false;
-		if (_pos.x < -20.8f)
+		if (_pos.x < -30.8f)
 			return false;
 		if (_pos.z > 30.6f)
 			return false;
