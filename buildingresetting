@@ -29,8 +29,7 @@ public class BuildingResetting : MonoBehaviour {
 		feather = GameObject.Find ("The Lead Feather");
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
-		HUD.SetActive(false);
-                //NEED TO CHANGE _POS = CAMERA.blah.blah TO STEAMVR TRACKED OBJECT -- _pos = steamvr_trackedobject(0)..position ? 
+		HUD.SetActive(false); 
 		//test if steamvr position is in real life or virtual coordinates
 	}
 	
@@ -38,6 +37,9 @@ public class BuildingResetting : MonoBehaviour {
 	void Update () 
 	{
 		_updateCount++;
+		_pos = Camera.main.transform.position;
+		_quat = Camera.main.transform.rotation;
+		Debug.Log (_pos);
 		resettingFSM();
 	}
 
@@ -168,7 +170,6 @@ public class BuildingResetting : MonoBehaviour {
 		prevPos = _pos;
 		prevXAngle = Camera.main.transform.eulerAngles.y;
 		message = feather.transform.position.ToString();
-                _pos = Camera.main.transform.position;
 	}
 	
 //NEW BOUNDARIES - used with new intended center
