@@ -10,9 +10,10 @@ public class BuildingResetting : MonoBehaviour {
 	
 	public string message = "";
 	//don't think this next line is necessary... ?
-	public Text HUDText;
+	public Text messageText;
 	
 	public string specifier;
+	public bool activeInHierarchy;
 
 	//idk what _updateCount is for
 	public int _updateCount = 0;
@@ -67,7 +68,7 @@ public class BuildingResetting : MonoBehaviour {
 		specifier = "f4";
 		Debug.Log(string.Format("position: {0}, previous {1}", _pos, prevPos));
 		Debug.Log(string.Format("{0}: {1}", specifier, deltaTranslationByFrame.ToString(specifier)));
-		float realWorldRotation = Camera.main.transform.localEulerAngles.y;
+		float realWorldRotation = Camera.main.transform.eulerAngles.y;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
 		//if crossed threshold from + to - (1 to 359)
 		if (deltaRotationByFrame > 90) {
@@ -85,6 +86,9 @@ public class BuildingResetting : MonoBehaviour {
 			hasNotReturnedToBounds = true;
 			virtualAngleTurned = 0f;
 			feather.SetActive (true);
+			if (feather.activeInHierarchy == true){
+				Debug.Log (string.Format ("feather is active"));
+			}
 			Vector3 featherPosition = new Vector3 (featherDestination.transform.position.x, transform.position.y, featherDestination.transform.position.z);
 			feather.transform.position = featherPosition;
 			Vector3 featherEuler = new Vector3(90, featherDestination.transform.eulerAngles.y, 0);
@@ -93,6 +97,9 @@ public class BuildingResetting : MonoBehaviour {
 		//perform reset by manipulating gain (to do this we will rotate the object in the opposite direction)
 		else if (resetNeeded) {
 			HUD.SetActive (true);
+			if (HUD.activeInHierarchy == true) {
+				Debug.Log (string.Format("HUD is active"));
+			}
 			//Calculate the total rotation neccesary - MIGHT BE MESSED UP BC NEGATIVE VECTOR FOR INTENDED CENTER
 			float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
 			float rotationRemainingToCenter = calc1 - realWorldRotation;
@@ -159,7 +166,7 @@ public class BuildingResetting : MonoBehaviour {
 		//transform.Translate(deltaTranslationByFrame);
 		//store data for use next frame
 		prevPos = _pos;
-		prevXAngle = Camera.main.transform.localEulerAngles.y;
+		prevXAngle = Camera.main.transform.eulerAngles.y;
 		message = feather.transform.position.ToString();
                 _pos = Camera.main.transform.position;
 	}
