@@ -136,10 +136,12 @@ public class BuildingResetting : MonoBehaviour {
 			Debug.Log(string.Format("virtual angle turned: {0}, injectedRotation: {1}", virtualAngleTurned, injectedRotation));
 			cumulativeAngleTurned -= injectedRotation; //to keep the person moving in the correct direction
 
-			//I THINK THIS SECTION HAS THE ISSUE BC ROTATION ISN'T BEING "INJECTED" --> BC NO PARENT OBJECT?? Camera.main.transform...
+			//I THINK THIS SECTION HAS THE ISSUE BC ROTATION ISN'T BEING "INJECTED" --> BC NO PARENT OBJECT?? 
+			// ADDED Camera.main.transform. to new vector3 tmp because it gets the current location
 			//add the injected rotation to the parent object
-			Vector3 tmp = transform.eulerAngles;
+			Vector3 tmp = Camera.main.transform.eulerAngles;
 			tmp.y += injectedRotation;
+			Debug.Log(string.Format("tmp: {0}", tmp));
 			transform.eulerAngles = tmp;
 			//if a full turn has occured then stop resetting
 			if (Mathf.Abs (virtualAngleTurned) > 359.9f || ReturnedToBounds()) {
