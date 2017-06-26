@@ -1,1 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
+public class BuildingRotation : MonoBehaviour {
+  
+  public float _rotY = 90f; 
+
+  void Update() {
+    _rotY += Camera.main.transform.eulerAngles.y;
+    transform.eulerAngles = new Vector3(0, _rotY, 0);
+  }
+}
