@@ -46,12 +46,6 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//idk what to do here
 	}
-	
-	public void transformData()
-	{
-	     _pos = Camera.main.transform.position;
-             _quat = Camera.main.transform.rotation;
-        }
 
 //beginning of the old code
 	private Vector3 intendedCenter = new Vector3 (-30f, 8f, 30.9f);
@@ -146,7 +140,7 @@ public class BuildingResetting : MonoBehaviour {
 			//add the injected rotation to the parent object
 			Vector3 tmp = transform.eulerAngles;
 			tmp.y += injectedRotation;
-			Camera.main.transform.eulerAngles = tmp;
+			transform.eulerAngles = tmp;
 			//if a full turn has occured then stop resetting
 			if (Mathf.Abs (virtualAngleTurned) > 359.9f || ReturnedToBounds()) {
 				resetNeeded = false;
