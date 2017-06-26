@@ -146,7 +146,7 @@ public class BuildingResetting : MonoBehaviour {
 			//add the injected rotation to the parent object
 			Vector3 tmp = transform.eulerAngles;
 			tmp.y += injectedRotation;
-			Camera.main transform.eulerAngles = tmp;
+			Camera.main.transform.eulerAngles = tmp;
 			//if a full turn has occured then stop resetting
 			if (Mathf.Abs (virtualAngleTurned) > 359.9f || ReturnedToBounds()) {
 				resetNeeded = false;
