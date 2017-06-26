@@ -128,6 +128,7 @@ public class BuildingResetting : MonoBehaviour {
 			//determine gain based on direction subject has rotated already
 			//tuned so that at 360 virtual angle turned the person is pointing back to the center
 			float gain = 0;
+			Debug.Log(string.Format("virtual angle turned: {0}", virtualAngleTurned));
 			if (virtualAngleTurned > 0) {
 				gain = (360f - virtualAngleTurned) / rotationRemaningToCenterP - 1;
 			} else {
@@ -136,13 +137,16 @@ public class BuildingResetting : MonoBehaviour {
 			//inject rotation
 			float injectedRotation = (deltaRotationByFrame) * gain;
 			virtualAngleTurned += deltaRotationByFrame; //baseline turn
+			Debug.Log(string.Format("virtual angle turned: {0}", virtualAngleTurned));
 			virtualAngleTurned += injectedRotation; //amount we make them turn as well
+			Debug.Log(string.Format("virtual angle turned: {0}, injectedRotation: {1}", virtualAngleTurned, injectedRotation));
 			cumulativeAngleTurned -= injectedRotation; //to keep the person moving in the correct direction
 
+			//I THINK THIS SECTION HAS THE ISSUE BC ROTATION ISN'T BEING "INJECTED" --> BC NO PARENT OBJECT?? Camera.main.transform...
 			//add the injected rotation to the parent object
 			Vector3 tmp = transform.eulerAngles;
 			tmp.y += injectedRotation;
-			transform.eulerAngles = tmp;
+			Camera.main transform.eulerAngles = tmp;
 			//if a full turn has occured then stop resetting
 			if (Mathf.Abs (virtualAngleTurned) > 359.9f || ReturnedToBounds()) {
 				resetNeeded = false;
