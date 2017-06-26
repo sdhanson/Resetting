@@ -14,7 +14,7 @@ public class BuildingRotation : MonoBehaviour {
   public void rotationTest() {
     if (Camera.main.transform.eulerAngles.y != 0) {
       _rotY += Camera.main.transform.eulerAngles.y;
-      transform.eulerAngles = switch + _rotY;
+      transform.eulerAngles.y = switch.y + _rotY;
     }
     else {
       Debug.Log(string.Format("no rotation needed!")); 
