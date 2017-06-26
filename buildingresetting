@@ -38,6 +38,7 @@ public class BuildingResetting : MonoBehaviour {
 		_updateCount++;
 		_pos = Camera.main.transform.position;
 		_quat = Camera.main.transform.rotation;
+		//transform.eulerAngles = Camera.main.transform.eulerAngles; - IS THIS NEEDED ??????????????????
 		Debug.Log (_pos);
 		resettingFSM();
 	}
