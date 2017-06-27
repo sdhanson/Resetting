@@ -8,8 +8,9 @@ public class BuildingResetting : MonoBehaviour {
 	public static Vector3 _pos = new Vector3 ();
 	public static Quaternion _quat = new Quaternion();
 	
-	public string message = "";
-	public Text messageText;
+	public static string message;
+	Text text;
+	text = GetComponent<Text> ();
 	
 	public string specifier;
 	public bool activeInHierarchy;
@@ -40,12 +41,14 @@ public class BuildingResetting : MonoBehaviour {
 		_quat = Camera.main.transform.rotation;
 		//transform.eulerAngles = Camera.main.transform.eulerAngles; - IS THIS NEEDED ??????????????????
 		Debug.Log (_pos);
+		text.text = message;
 		resettingFSM();
 	}
 
 	void OnGui()
 	{
-		//idk what to do here
+		HUD.text = message; 
+		//designated twice... check which one is correct
 	}
 
 //beginning of the old code
