@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingRotation : MonoBehaviour {
   
-  public var _rotY = 90f;
+  public float _rotY = 90f;
   public Vector3 switch = new Vector3 (0f, 0f, 0f);
 
   void Update() {
