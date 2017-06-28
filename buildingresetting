@@ -22,6 +22,7 @@ public class BuildingResetting : MonoBehaviour {
 	GameObject feather;
 	GameObject featherDestination;
 	GameObject HUD;
+	GameObject CamRot;
 
 	// Use this for initialization
 	void Start () 
@@ -29,6 +30,7 @@ public class BuildingResetting : MonoBehaviour {
 		feather = GameObject.Find ("The Lead Feather");
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
+		CamRot = GameObject.Find("CamRot");
 		HUD.SetActive(false); 
 		//test if steamvr position is in real life or virtual coordinates
 	}
@@ -37,18 +39,14 @@ public class BuildingResetting : MonoBehaviour {
 	void Update () 
 	{
 		_updateCount++;
-		_pos = Camera.main.transform.position;
-		_quat = Camera.main.transform.rotation;
-		//transform.eulerAngles = Camera.main.transform.eulerAngles; - IS THIS NEEDED ??????????????????
-		Debug.Log (_pos);
+		_pos = Camera.main.transform.localPosition;
 		text.text = message;
 		resettingFSM();
 	}
 
 	void OnGui()
 	{
-		HUD.text = message; 
-		//designated twice... check which one is correct
+		//text.text = message; 
 	}
 
 //beginning of the old code
@@ -180,25 +178,25 @@ public class BuildingResetting : MonoBehaviour {
 	
 //NEW BOUNDARIES - used with new intended center
        public bool OutOfBounds() {
-		if (_pos.x > -28.4f)
+		if (_pos.x > 2.2f)
 			return true;
-		if (_pos.x < -31.1f)
+		if (_pos.x < -0.34f)
 			return true;
-		if (_pos.z > 31f)
+		if (_pos.z > 0.57f)
 			return true;
-		if (_pos.z < 26.8)
+		if (_pos.z < -2.68)
 			return true;
 		return false;
 	}
 
 	public bool ReturnedToBounds() {
-		if (_pos.x > -28.7f)
+		if (_pos.x > 1.9f)
 			return false;
-		if (_pos.x < -30.8f)
+		if (_pos.x < -0.1f)
 			return false;
-		if (_pos.z > 30.7f)
+		if (_pos.z > 0.27f)
 			return false;
-		if (_pos.z < 27.1f)
+		if (_pos.z < -2.38f)
 			return false;
 		return true;
 	}
