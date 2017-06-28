@@ -41,6 +41,7 @@ public class BuildingResetting : MonoBehaviour {
 		_updateCount++;
 		_pos = Camera.main.transform.localPosition;
 		text.text = message;
+		//add deltaTranslationbyFrame to CamRot.transform.position
 		resettingFSM();
 	}
 
