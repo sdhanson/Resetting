@@ -95,6 +95,8 @@ public class BuildingResetting : MonoBehaviour {
 			feather.transform.eulerAngles = featherEuler;
 		}
 		//perform reset by manipulating gain (to do this we will rotate the object in the opposite direction)
+		//manipulating this part
+		// so always want the person to be facing the center. want them to go from the angle they are facing out to the center --> can find the angle out from the center by doing arc tan to their position and then looking at their own position on their own coordinate field. then, want them to turn that whole way and the virtual world to turn 360 degrees. so look gain is the ratio of what is left to go in the real world to what is left to go in the virtual world (opposite ratio). say 300 in virtual and 100 in real --> gain is 3. so they turn 10 degrees and virtual they should turn 30, but vive takes care of the 10 real world so virtual should be 30 - 10 = 20. P and N are directions. need to check that calc is correct for the angles of the main camera and the angle back to the center and see why the turning is not right.
 		else if (resetNeeded) {
 			HUD.SetActive (true);
 			if (HUD.activeInHierarchy == true) {
