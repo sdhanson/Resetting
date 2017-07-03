@@ -51,7 +51,7 @@ public class BuildingResetting : MonoBehaviour {
 	}
 
 //beginning of the old code
-	private Vector3 intendedCenter = new Vector3 (-30f, 8f, 30.9f);
+	private Vector3 intendedCenter = new Vector3 (0f, 0f, 0f);
 	private float prevXAngle = 0f;
 	private Vector3 prevPos = new Vector3();
 	private bool resetNeeded = false;
@@ -66,7 +66,7 @@ public class BuildingResetting : MonoBehaviour {
 		specifier = "f4";
 		//Debug.Log(string.Format("position: {0}, previous {1}", _pos, prevPos));
 		//Debug.Log(string.Format("{0}: {1}", specifier, deltaTranslationByFrame.ToString(specifier)));
-		float realWorldRotation = Camera.main.transform.eulerAngles.y;
+		float realWorldRotation = Camera.main.transform.eulerAngles.y - 180f;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
 		//Debug.Log(string.Format("position: {0}, previous {1}", realWorldRotation, prevXAngle));
 		//Debug.Log(string.Format("{0}: {1}", specifier, deltaRotationByFrame.ToString(specifier)));
@@ -175,7 +175,7 @@ public class BuildingResetting : MonoBehaviour {
 		//transform.Translate(deltaTranslationByFrame);
 		//store data for use next frame
 		prevPos = _pos;
-		prevXAngle = Camera.main.transform.eulerAngles.y;
+		prevXAngle = Camera.main.transform.eulerAngles.y - 180f;
 		message = feather.transform.position.ToString();
 	}
 	
