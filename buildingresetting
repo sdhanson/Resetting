@@ -22,7 +22,7 @@ public class BuildingResetting : MonoBehaviour {
 	GameObject feather;
 	GameObject featherDestination;
 	GameObject HUD;
-	GameObject CamRot;
+	GameObject Rot;
 
 	// Use this for initialization
 	void Start () 
@@ -30,7 +30,7 @@ public class BuildingResetting : MonoBehaviour {
 		feather = GameObject.Find ("The Lead Feather");
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
-		CamRot = GameObject.Find("CamRot");
+		Rot = GameObject.Find("Rot");
 		HUD.SetActive(false); 
 		//test if steamvr position is in real life or virtual coordinates
 	}
@@ -41,7 +41,7 @@ public class BuildingResetting : MonoBehaviour {
 		_updateCount++;
 		_pos = Camera.main.transform.localPosition;
 		text.text = message;
-		//add deltaTranslationbyFrame to CamRot.transform.position
+		//add deltaTranslationbyFrame to Rot.transform.position
 		resettingFSM();
 	}
 
