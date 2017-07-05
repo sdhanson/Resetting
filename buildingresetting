@@ -10,11 +10,6 @@ public class BuildingResetting : MonoBehaviour {
 	
 	public static string message;
 	Text text;
-	
-
-	//idk what _updateCount is for
-	public int _updateCount = 0;
-	public int _messageCount = 0;
 
 	GameObject feather;
 	GameObject featherDestination;
@@ -33,7 +28,6 @@ public class BuildingResetting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		_updateCount++;
 		_pos = Camera.main.transform.localPosition;
 		resettingFSM();
 	}
@@ -89,12 +83,12 @@ public class BuildingResetting : MonoBehaviour {
 			if (_pos.x * _pos.z) > 0 {
 				rotationRemainingToCenter= 180 + calc1 - calc2;
 				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+				rotationRemainingToCenterN = -rotationRemainingToCenter;
 			}
 			if (_pos.x * _pos.z) < 0 {
 				rotationRemainingToCenter= calc1 + calc2;
 				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+				rotationRemainingToCenterN = -rotationRemainingToCenter;
 			}
 
 			//determine gain based on direction subject has rotated already
