@@ -10,10 +10,7 @@ public class BuildingResetting : MonoBehaviour {
 	
 	public static string message;
 	Text text;
-	text = GetComponent<Text> ();
 	
-	public string specifier;
-	public bool activeInHierarchy;
 
 	//idk what _updateCount is for
 	public int _updateCount = 0;
@@ -31,8 +28,6 @@ public class BuildingResetting : MonoBehaviour {
 		featherDestination = GameObject.Find ("FeatherDestination");
 		HUD = GameObject.Find ("HUD");
 		Rot = GameObject.Find("Rot");
-		HUD.SetActive(false); 
-		//test if steamvr position is in real life or virtual coordinates
 	}
 	
 	// Update is called once per frame
@@ -40,8 +35,6 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		_updateCount++;
 		_pos = Camera.main.transform.localPosition;
-		text.text = message;
-		//add deltaTranslationbyFrame to Rot.transform.position
 		resettingFSM();
 	}
 
@@ -63,13 +56,8 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//Gather pertinent data
 		Vector3 deltaTranslationByFrame = _pos - prevPos;
-		specifier = "f4";
-		//Debug.Log(string.Format("position: {0}, previous {1}", _pos, prevPos));
-		//Debug.Log(string.Format("{0}: {1}", specifier, deltaTranslationByFrame.ToString(specifier)));
 		float realWorldRotation = Camera.main.transform.eulerAngles.y;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
-		//Debug.Log(string.Format("position: {0}, previous {1}", realWorldRotation, prevXAngle));
-		//Debug.Log(string.Format("{0}: {1}", specifier, deltaRotationByFrame.ToString(specifier)));
 		//if crossed threshold from + to - (1 to 359)
 		if (deltaRotationByFrame > 90) {
 			deltaRotationByFrame = deltaRotationByFrame - 360;
@@ -86,9 +74,6 @@ public class BuildingResetting : MonoBehaviour {
 			hasNotReturnedToBounds = true;
 			virtualAngleTurned = 0f;
 			feather.SetActive (true);
-			if (feather.activeInHierarchy == true){
-				Debug.Log (string.Format ("feather is active"));
-			}
 			Vector3 featherPosition = new Vector3 (featherDestination.transform.position.x, transform.position.y, featherDestination.transform.position.z);
 			feather.transform.position = featherPosition;
 			Vector3 featherEuler = new Vector3(90, featherDestination.transform.eulerAngles.y, 0);
@@ -102,7 +87,6 @@ public class BuildingResetting : MonoBehaviour {
 			if (HUD.activeInHierarchy == true) {
 				Debug.Log (string.Format("HUD is active"));
 			}
-			//Calculate the total rotation neccesary - MIGHT BE MESSED UP BC NEGATIVE VECTOR FOR INTENDED CENTER
 			float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
 			float calc2 = 180 - abs(realWorldRotation);
 			float rotationRemainingToCenter = calc1 + calc2;
@@ -127,7 +111,6 @@ public class BuildingResetting : MonoBehaviour {
 			//determine gain based on direction subject has rotated already
 			//tuned so that at 360 virtual angle turned the person is pointing back to the center
 			float gain = 0;
-			Debug.Log(string.Format("virtual angle turned: {0}", virtualAngleTurned));
 			if (virtualAngleTurned > 0) {
 				gain = (360f - virtualAngleTurned) / rotationRemaningToCenterP - 1;
 			} else {
@@ -136,12 +119,9 @@ public class BuildingResetting : MonoBehaviour {
 			//inject rotation
 			float injectedRotation = (deltaRotationByFrame) * gain;
 			virtualAngleTurned += deltaRotationByFrame; //baseline turn
-			Debug.Log(string.Format("virtual angle turned: {0}", virtualAngleTurned));
 			virtualAngleTurned += injectedRotation; //amount we make them turn as well
-			Debug.Log(string.Format("virtual angle turned: {0}, injectedRotation: {1}", virtualAngleTurned, injectedRotation));
 			cumulativeAngleTurned -= injectedRotation; //to keep the person moving in the correct direction
-
-			//I THINK THIS SECTION HAS THE ISSUE BC ROTATION ISN'T BEING "INJECTED" --> BC NO PARENT OBJECT?? 
+ 
 			// ADDED Camera.main.transform. to new vector3 tmp because it gets the current location
 			//add the injected rotation to the parent object
 			Vector3 tmp = Camera.main.transform.eulerAngles;
