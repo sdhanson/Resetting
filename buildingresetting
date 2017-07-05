@@ -83,12 +83,18 @@ public class BuildingResetting : MonoBehaviour {
 			if (_pos.x * _pos.z) > 0 {
 				rotationRemainingToCenter= 180 + calc1 - calc2;
 				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = -rotationRemainingToCenter;
+				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
 			}
 			if (_pos.x * _pos.z) < 0 {
 				rotationRemainingToCenter= calc1 + calc2;
 				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = -rotationRemainingToCenter;
+				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+			}
+			if (rotationRemainingToCenter < -360) {
+				rotationRemainingToCenter += 360;
+			}
+			if (rotationRemainingToCenter > 360) {
+				rotationRemainingToCenter -= 360;
 			}
 
 			//determine gain based on direction subject has rotated already
