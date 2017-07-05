@@ -56,7 +56,7 @@ public class BuildingResetting : MonoBehaviour {
 	{
 		//Gather pertinent data
 		Vector3 deltaTranslationByFrame = _pos - prevPos;
-		float realWorldRotation = Camera.main.transform.eulerAngles.y;
+		float realWorldRotation = Camera.main.transform.localEulerAngles.y;
 		float deltaRotationByFrame = realWorldRotation - prevXAngle;
 		//if crossed threshold from + to - (1 to 359)
 		if (deltaRotationByFrame > 90) {
@@ -76,8 +76,6 @@ public class BuildingResetting : MonoBehaviour {
 			feather.SetActive (true);
 			Vector3 featherPosition = new Vector3 (featherDestination.transform.position.x, transform.position.y, featherDestination.transform.position.z);
 			feather.transform.position = featherPosition;
-			Vector3 featherEuler = new Vector3(90, featherDestination.transform.eulerAngles.y, 0);
-			feather.transform.eulerAngles = featherEuler;
 		}
 		//perform reset by manipulating gain (to do this we will rotate the object in the opposite direction)
 		//manipulating this part
