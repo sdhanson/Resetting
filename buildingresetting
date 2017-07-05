@@ -84,28 +84,17 @@ public class BuildingResetting : MonoBehaviour {
 		// so always want the person to be facing the center. want them to go from the angle they are facing out to the center --> can find the angle out from the center by doing arc tan to their position and then looking at their own position on their own coordinate field. then, want them to turn that whole way and the virtual world to turn 360 degrees. so look gain is the ratio of what is left to go in the real world to what is left to go in the virtual world (opposite ratio). say 300 in virtual and 100 in real --> gain is 3. so they turn 10 degrees and virtual they should turn 30, but vive takes care of the 10 real world so virtual should be 30 - 10 = 20. P and N are directions. need to check that calc is correct for the angles of the main camera and the angle back to the center and see why the turning is not right.
 		else if (resetNeeded) {
 			HUD.SetActive (true);
-			if (HUD.activeInHierarchy == true) {
-				Debug.Log (string.Format("HUD is active"));
-			}
 			float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
-			float calc2 = 180 - abs(realWorldRotation);
-			float rotationRemainingToCenter = calc1 + calc2;
-			//fix rotation variables
-			if (rotationRemainingToCenter < -360) {
-				rotationRemainingToCenter += 360;
+			float calc2 = realWorldRotation;
+			if (_pos.x * _pos.z) > 0 {
+				rotationRemainingToCenter= 180 + calc1 - calc2;
+				rotationRemainingToCenterP = rotationRemainingToCenter;
+				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
 			}
-			if (rotationRemainingToCenter < -180) {
-				rotationRemainingToCenter = 360 + rotationRemainingToCenter;
-			}
-			float rotationRemaningToCenterP = 0;
-			float rotationRemaningToCenterN = 0;
-			//determine left and right angles to rotate
-			if (rotationRemainingToCenter < 0) {
-				rotationRemaningToCenterN = rotationRemainingToCenter;
-				rotationRemaningToCenterP = 360 + rotationRemainingToCenter;
-			} else {
-				rotationRemaningToCenterP = rotationRemainingToCenter;
-				rotationRemaningToCenterN = rotationRemainingToCenter - 360;
+			if (_pos.x * _pos.z) < 0 {
+				rotationRemainingToCenter= calc1 + calc2;
+				rotationRemainingToCenterP = rotationRemainingToCenter;
+				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
 			}
 
 			//determine gain based on direction subject has rotated already
@@ -126,7 +115,6 @@ public class BuildingResetting : MonoBehaviour {
 			//add the injected rotation to the parent object
 			Vector3 tmp = Camera.main.transform.eulerAngles;
 			tmp.y += injectedRotation;
-			Debug.Log(string.Format("tmp: {0}", tmp));
 			transform.eulerAngles = tmp;
 			//if a full turn has occured then stop resetting
 			if (Mathf.Abs (virtualAngleTurned) > 359.9f || ReturnedToBounds()) {
@@ -184,3 +172,25 @@ public class BuildingResetting : MonoBehaviour {
 		return true;
 	}
 }
+
+
+
+
+OLD:
+//fix rotation variables
+			if (rotationRemainingToCenter < -360) {
+				rotationRemainingToCenter += 360;
+			}
+			if (rotationRemainingToCenter < -180) {
+				rotationRemainingToCenter = 360 + rotationRemainingToCenter;
+			}
+			float rotationRemaningToCenterP = 0;
+			float rotationRemaningToCenterN = 0;
+			//determine left and right angles to rotate
+			if (rotationRemainingToCenter < 0) {
+				rotationRemaningToCenterN = rotationRemainingToCenter;
+				rotationRemaningToCenterP = 360 + rotationRemainingToCenter;
+			} else {
+				rotationRemaningToCenterP = rotationRemainingToCenter;
+				rotationRemaningToCenterN = rotationRemainingToCenter - 360;
+			}
