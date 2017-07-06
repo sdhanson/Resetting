@@ -87,8 +87,14 @@ public class BuildingResetting : MonoBehaviour {
 			}
 			if (_pos.x * _pos.z) < 0 {
 				rotationRemainingToCenter= calc1 + calc2;
-				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+				if (realWorldRotation > 0) {
+					rotationRemainingToCenterP = rotationRemainingToCenter;
+					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+				}
+				else {
+					rotationRemainingToCenterP = 360 + rotationRemainingToCenter;
+					rotationRemainingToCenterN = rotationRemainingToCenter;
+				}
 			}
 			if (rotationRemainingToCenter < -360) {
 				rotationRemainingToCenter += 360;
