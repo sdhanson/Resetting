@@ -28,6 +28,7 @@ public class BuildingResetting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		prevPos = _pos;
 		_pos = Camera.main.transform.localPosition;
 		resettingFSM();
 	}
@@ -76,26 +77,21 @@ public class BuildingResetting : MonoBehaviour {
 		// so always want the person to be facing the center. want them to go from the angle they are facing out to the center --> can find the angle out from the center by doing arc tan to their position and then looking at their own position on their own coordinate field. then, want them to turn that whole way and the virtual world to turn 360 degrees. so look gain is the ratio of what is left to go in the real world to what is left to go in the virtual world (opposite ratio). say 300 in virtual and 100 in real --> gain is 3. so they turn 10 degrees and virtual they should turn 30, but vive takes care of the 10 real world so virtual should be 30 - 10 = 20. P and N are directions. need to check that calc is correct for the angles of the main camera and the angle back to the center and see why the turning is not right.
 		else if (resetNeeded) {
 			HUD.SetActive (true);
-			float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
+				float calc1 = Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z); //- 180f;
 			float calc2 = realWorldRotation;
-			float rotationRemaningToCenterP = 0;
-			float rotationRemaningToCenterN = 0;
-			if (_pos.x * _pos.z) > 0 {
-				rotationRemainingToCenter= 180 + calc1 - calc2;
-				rotationRemainingToCenterP = rotationRemainingToCenter;
-				rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+			if (calc2 > 180) {
+				calc2 = calc2 - 360;
 			}
-			if (_pos.x * _pos.z) < 0 {
-				rotationRemainingToCenter= calc1 + calc2;
-				if (realWorldRotation > 0) {
-					rotationRemainingToCenterP = rotationRemainingToCenter;
-					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
-				}
-				else {
-					rotationRemainingToCenterP = 360 + rotationRemainingToCenter;
-					rotationRemainingToCenterN = rotationRemainingToCenter;
-				}
+			//fix rotation variables
+			float rotationRemainingToCenterL = 0;
+			float rotationRemainingToCenterR = 0;
+			float rotationRemainingToCenter = 0;
+			rotationRemainingToCenterL = calc2 - calc1;
+			if (rotationRemainingToCenterL < 0) {
+				rotationRemainingToCenterL += 360;
 			}
+			rotationRemainingToCenterR = 360 - rotationRemainingToCenterL;
+		//	Debug.Log (string.Format("calc1: {0}, calc2: {1}, rrcL: {2}, rrcR: {3}", calc1, calc2, rotationRemainingToCenterL, rotationRemainingToCenterR));
 			if (rotationRemainingToCenter < -360) {
 				rotationRemainingToCenter += 360;
 			}
@@ -107,9 +103,9 @@ public class BuildingResetting : MonoBehaviour {
 			//tuned so that at 360 virtual angle turned the person is pointing back to the center
 			float gain = 0;
 			if (virtualAngleTurned > 0) {
-				gain = (360f - virtualAngleTurned) / rotationRemaningToCenterP - 1;
+				gain = (360f - virtualAngleTurned) / rotationRemaningToCenterR - 1;
 			} else {
-				gain = -(360f + virtualAngleTurned) / rotationRemaningToCenterN - 1;
+				gain = -(360f + virtualAngleTurned) / rotationRemaningToCenterL - 1;
 			}
 			//inject rotation
 			float injectedRotation = (deltaRotationByFrame) * gain;
@@ -179,74 +175,3 @@ public class BuildingResetting : MonoBehaviour {
 	}
 }
 
-
-
-
-OLD:
-//fix rotation variables
-			if (rotationRemainingToCenter < -360) {
-				rotationRemainingToCenter += 360;
-			}
-			if (rotationRemainingToCenter < -180) {
-				rotationRemainingToCenter = 360 + rotationRemainingToCenter;
-			}
-			float rotationRemaningToCenterP = 0;
-			float rotationRemaningToCenterN = 0;
-			//determine left and right angles to rotate
-			if (rotationRemainingToCenter < 0) {
-				rotationRemaningToCenterN = rotationRemainingToCenter;
-				rotationRemaningToCenterP = 360 + rotationRemainingToCenter;
-			} else {
-				rotationRemaningToCenterP = rotationRemainingToCenter;
-				rotationRemaningToCenterN = rotationRemainingToCenter - 360;
-			}
-//old
-	float calcI = - Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
-			float calc1 = Mathf.Rad2Deg * Mathf.Abs(Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z)); //- 180f;
-			float calc3 = calc1 - 90;
-			float calc2 = realWorldRotation;
-			if (calc2 > 180) {
-				calc2 = calc2 - 360;
-			}
-			//fix rotation variables
-			float rotationRemainingToCenterP = 0;
-			float rotationRemainingToCenterN = 0;
-			float rotationRemainingToCenter = 0;
-			if (_pos.x * _pos.z > 0) { // x + z + L R 
-				rotationRemainingToCenter= 180 - calc2 + calc3;
-				if (realWorldRotation > 0) {
-					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
-					rotationRemainingToCenterP = rotationRemainingToCenter; //+ calc2 - calc1;
-				} else {
-					rotationRemainingToCenterN = rotationRemainingToCenter;
-					rotationRemainingToCenterP = 360 - rotationRemainingToCenter;
-				}
-			}
-			if (_pos.x * _pos.z < 0) { // x + z - L ; x - z + L 
-				rotationRemainingToCenter = Mathf.Abs(calcI + calc2);
-				if (_pos.x > 0) {
-					rotationRemainingToCenterN = rotationRemainingToCenter;
-					rotationRemainingToCenterP = 360 - rotationRemainingToCenter;
-				} else {
-					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
-					rotationRemainingToCenterP = rotationRemainingToCenter;
-				}
-			}
-			if (rotationRemainingToCenterN > 360) {
-				rotationRemainingToCenterN -= 360;
-			}
-			if (rotationRemainingToCenterN < 0) {
-				rotationRemainingToCenterN += 360;
-			}
-			if (rotationRemainingToCenterP < 0) {
-				rotationRemainingToCenterP += 360;
-			}
-			if (rotationRemainingToCenterP > 360) {
-				rotationRemainingToCenterP -= 360;
-			}
-			if (rotationRemainingToCenter < -360) {
-				rotationRemainingToCenter += 360;
-			}
-			if (rotationRemainingToCenter > 360) {
-				rotationRemainingToCenter -= 360;
-			}
