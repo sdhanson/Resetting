@@ -200,3 +200,53 @@ OLD:
 				rotationRemaningToCenterP = rotationRemainingToCenter;
 				rotationRemaningToCenterN = rotationRemainingToCenter - 360;
 			}
+//old
+	float calcI = - Mathf.Rad2Deg * Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z);
+			float calc1 = Mathf.Rad2Deg * Mathf.Abs(Mathf.Atan2 (intendedCenter.x - _pos.x, intendedCenter.z - _pos.z)); //- 180f;
+			float calc3 = calc1 - 90;
+			float calc2 = realWorldRotation;
+			if (calc2 > 180) {
+				calc2 = calc2 - 360;
+			}
+			//fix rotation variables
+			float rotationRemainingToCenterP = 0;
+			float rotationRemainingToCenterN = 0;
+			float rotationRemainingToCenter = 0;
+			if (_pos.x * _pos.z > 0) { // x + z + L R 
+				rotationRemainingToCenter= 180 - calc2 + calc3;
+				if (realWorldRotation > 0) {
+					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+					rotationRemainingToCenterP = rotationRemainingToCenter; //+ calc2 - calc1;
+				} else {
+					rotationRemainingToCenterN = rotationRemainingToCenter;
+					rotationRemainingToCenterP = 360 - rotationRemainingToCenter;
+				}
+			}
+			if (_pos.x * _pos.z < 0) { // x + z - L ; x - z + L 
+				rotationRemainingToCenter = Mathf.Abs(calcI + calc2);
+				if (_pos.x > 0) {
+					rotationRemainingToCenterN = rotationRemainingToCenter;
+					rotationRemainingToCenterP = 360 - rotationRemainingToCenter;
+				} else {
+					rotationRemainingToCenterN = 360 - rotationRemainingToCenter;
+					rotationRemainingToCenterP = rotationRemainingToCenter;
+				}
+			}
+			if (rotationRemainingToCenterN > 360) {
+				rotationRemainingToCenterN -= 360;
+			}
+			if (rotationRemainingToCenterN < 0) {
+				rotationRemainingToCenterN += 360;
+			}
+			if (rotationRemainingToCenterP < 0) {
+				rotationRemainingToCenterP += 360;
+			}
+			if (rotationRemainingToCenterP > 360) {
+				rotationRemainingToCenterP -= 360;
+			}
+			if (rotationRemainingToCenter < -360) {
+				rotationRemainingToCenter += 360;
+			}
+			if (rotationRemainingToCenter > 360) {
+				rotationRemainingToCenter -= 360;
+			}
